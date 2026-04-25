@@ -9,11 +9,7 @@ const PARTICLES = [
   { x: '70%', y: '73%', s: 3.2, d: 0.6, dur: 3.5 },
   { x: '14%', y: '78%', s: 2,   d: 1.9, dur: 4.7 },
   { x: '92%', y: '40%', s: 2.8, d: 0.3, dur: 3.2 },
-  { x: '38%', y: '20%', s: 1.6, d: 2.3, dur: 5.1 },
-  { x: '79%', y: '88%', s: 2.4, d: 0.9, dur: 3.9 },
-  { x: '4%',  y: '52%', s: 1.5, d: 1.5, dur: 4.5 },
   { x: '56%', y: '7%',  s: 2,   d: 2.8, dur: 3.6 },
-  { x: '24%', y: '36%', s: 1.4, d: 3.2, dur: 4.1 },
 ]
 
 const textStyle = {
@@ -108,7 +104,7 @@ export default function IntroScreen({ onComplete }: Props) {
 
       {/* Central layout: text + eyes + text */}
       <motion.div
-        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 2, y: progress * -80 }}
+        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 2, gap: 20, y: progress * -80 }}
       >
         {/* Top right: connector line + text */}
         <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
@@ -124,7 +120,7 @@ export default function IntroScreen({ onComplete }: Props) {
               </motion.div>
             )}
           </AnimatePresence>
-          <div style={{ width: 1, height: 56, background: 'linear-gradient(to bottom, transparent, rgba(200,168,107,0.55))', flexShrink: 0 }} />
+          <div style={{ width: 1, height: 72, background: 'linear-gradient(to bottom, transparent, rgba(200,168,107,0.55))', flexShrink: 0 }} />
         </div>
 
         {/* Eyes */}
@@ -138,7 +134,7 @@ export default function IntroScreen({ onComplete }: Props) {
 
         {/* Bottom left: connector line + text */}
         <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
-          <div style={{ width: 1, height: 56, background: 'linear-gradient(to bottom, rgba(200,168,107,0.55), transparent)', flexShrink: 0 }} />
+          <div style={{ width: 1, height: 72, background: 'linear-gradient(to bottom, rgba(200,168,107,0.55), transparent)', flexShrink: 0 }} />
           <AnimatePresence>
             {showBottomText && (
               <motion.div
