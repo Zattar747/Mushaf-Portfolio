@@ -9,21 +9,7 @@ const QUOTES = [
     role: 'Director, AWS Cloud Club · MAHE Dubai',
     initial: 'A',
   },
-  {
-    text: "From a marketing perspective, Mushaf is the kind of creative collaborator you rarely come across. She doesn't just execute a brief — she elevates it. Every campaign visual she produced had a clarity and intentionality that resonated with our audience immediately. Her instinct for what works visually, combined with a deep understanding of our brand voice, made every project feel effortless and effective. An invaluable asset to the team.",
-    by: 'Pinan',
-    role: 'Marketing Head, AWS Cloud Club · MAHE Dubai',
-    initial: 'P',
-  },
-  {
-    text: "Leading the AWS Cloud Club, I've had the privilege of working alongside many talented individuals — but Mushaf operates at a different level entirely. Her design work doesn't just look polished; it communicates with purpose. She brings discipline, creative courage, and a relentless attention to detail that sets a standard for everyone around her. The visual identity of our club has been significantly shaped by her contributions, and the results speak for themselves.",
-    by: 'Fida',
-    role: 'Captain, AWS Cloud Club · MAHE Dubai',
-    initial: 'F',
-  },
 ]
-
-const LOOP = [...QUOTES, ...QUOTES]
 
 function TestimonialCard({ q }: { q: typeof QUOTES[0] }) {
   return (
@@ -114,14 +100,9 @@ export default function Testimonials() {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.85, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
         viewport={VP}
-        style={{
-          maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
-          WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
-        }}
+        style={{ display: 'flex', justifyContent: 'center', padding: '0 64px' }}
       >
-        <div className="x-slider" style={{ display: 'flex', gap: 24, width: 'max-content' }}>
-          {LOOP.map((q, i) => <TestimonialCard key={i} q={q} />)}
-        </div>
+        <TestimonialCard q={QUOTES[0]} />
       </motion.div>
     </section>
   )
