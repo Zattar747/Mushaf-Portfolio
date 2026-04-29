@@ -12,57 +12,8 @@ const DESC: Record<string, string> = {
   'Presentations': 'Pitch decks · Annual reports · Keynote design · Brand decks',
 }
 
-const PEAK_Y = [64, 32, 0, 32, 64]
-const PEAK_ROT = [-6, -3, 0, 3, 6]
-const PEAK_Z = [1, 2, 3, 2, 1]
-
-function PeakedCard({ img, i, hoveredIdx, onHover, onLeave }: {
-  img: PortfolioImage; i: number; hoveredIdx: number | null
-  onHover: () => void; onLeave: () => void
-}) {
-  const isHov = hoveredIdx === i
-  const dimmed = hoveredIdx !== null && !isHov
-  return (
-    <motion.div
-      style={{ position: 'absolute', left: i * 156, bottom: 0, zIndex: isHov ? 20 : PEAK_Z[i] ?? 1, transformOrigin: 'bottom center' }}
-      animate={{
-        y: isHov ? PEAK_Y[i] - 42 : PEAK_Y[i],
-        rotate: PEAK_ROT[i] ?? 0,
-        scale: isHov ? 1.07 : dimmed ? 0.96 : 1,
-        filter: dimmed ? 'brightness(0.55) saturate(0.7)' : 'brightness(1)',
-      }}
-      transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
-      onHoverStart={onHover}
-      onHoverEnd={onLeave}
-      data-hover
-    >
-      <div style={{
-        width: 224, height: 308, borderRadius: 12, overflow: 'hidden',
-        boxShadow: isHov
-          ? '0 48px 96px rgba(0,0,0,0.75), 0 0 0 1.5px rgba(200,168,107,0.5)'
-          : '0 18px 52px rgba(0,0,0,0.55)',
-        transition: 'box-shadow 0.38s',
-        position: 'relative',
-      }}>
-        {img.type === 'video'
-          ? <video src={img.src} autoPlay muted loop playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-          : <img src={img.src} alt={img.alt} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />}
-        <motion.div
-          animate={{ opacity: isHov ? 1 : 0 }}
-          transition={{ duration: 0.25 }}
-          style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(11,10,8,0.85) 0%, transparent 55%)', display: 'flex', alignItems: 'flex-end', padding: '20px 16px' }}
-        >
-          <p style={{ fontFamily: '"Cormorant Garamond",serif', fontSize: 17, fontStyle: 'italic', color: '#C8A86B', lineHeight: 1.2 }}>{img.title}</p>
-        </motion.div>
-      </div>
-    </motion.div>
-  )
-}
-
 export function PortfolioGallery({ title, images }: Props) {
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
   const [lightbox, setLightbox] = useState<number | null>(null)
-  const show = images.slice(0, 5)
 
   return (
     <div className="min-h-screen bg-bg" style={{ paddingBottom: 120 }}>
@@ -86,18 +37,8 @@ export function PortfolioGallery({ title, images }: Props) {
         </motion.p>
       </div>
 
-      {/* Peaked formation */}
-      <div className="hidden md:flex justify-center" style={{ padding: '88px 80px', position: 'relative' }}>
-        <div style={{ position: 'relative', width: show.length * 156, height: 400 }}>
-          {show.map((img, i) => (
-            <PeakedCard key={img.src + i} img={img} i={i} hoveredIdx={hoveredIdx}
-              onHover={() => setHoveredIdx(i)} onLeave={() => setHoveredIdx(null)} />
-          ))}
-        </div>
-      </div>
-
       {/* Divider */}
-      <div style={{ padding: '0 80px', marginBottom: 64 }}>
+      <div style={{ padding: '64px 80px 64px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
           <div style={{ flex: 1, height: 1, background: 'rgba(242,237,228,0.06)' }} />
           <span style={{ fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: '#4A453E' }}>All Works</span>
@@ -105,7 +46,7 @@ export function PortfolioGallery({ title, images }: Props) {
         </div>
       </div>
 
-      {/* Staggered masonry grid */}
+      {/* Masonry grid */}
       <div style={{ padding: '0 80px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
         {images.map((img, i) => (
           <motion.div
@@ -115,12 +56,12 @@ export function PortfolioGallery({ title, images }: Props) {
             transition={{ duration: 0.72, delay: 0.08 + i * 0.07, ease: [0.16, 1, 0.3, 1] }}
             data-hover
             onClick={() => setLightbox(i)}
-            style={{ position: 'relative', aspectRatio: i % 3 === 1 ? '3/4' : '4/3', borderRadius: 10, overflow: 'hidden', cursor: 'pointer', background: '#131210' }}
+            style={{ position: 'relative', borderRadius: 10, overflow: 'hidden', cursor: 'pointer', background: '#0b0a08' }}
             whileHover="hov"
           >
             {img.type === 'video'
-              ? <video src={img.src} autoPlay muted loop playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-              : <motion.img src={img.src} alt={img.alt} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} variants={{ hov: { scale: 1.06 } }} transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }} />}
+              ? <video src={img.src} autoPlay muted loop playsInline style={{ width: '100%', height: 'auto', display: 'block' }} />
+              : <motion.img src={img.src} alt={img.alt} style={{ width: '100%', height: 'auto', display: 'block' }} variants={{ hov: { scale: 1.03 } }} transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }} />}
             <motion.div
               variants={{ hov: { opacity: 1 } }}
               initial={{ opacity: 0 }}
@@ -165,8 +106,8 @@ export function PortfolioGallery({ title, images }: Props) {
       <div className="md:hidden overflow-hidden mt-4 px-6">
         <div className="flex gap-4 ml" style={{ width: 'max-content' }}>
           {[...images, ...images].map((img, i) => (
-            <div key={i} style={{ width: 200, height: 270, borderRadius: 10, overflow: 'hidden', flexShrink: 0 }}>
-              <img src={img.src} alt={img.alt} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div key={i} style={{ width: 200, borderRadius: 10, overflow: 'hidden', flexShrink: 0, background: '#0b0a08' }}>
+              <img src={img.src} alt={img.alt} style={{ width: '100%', height: 'auto', display: 'block' }} />
             </div>
           ))}
         </div>
@@ -188,10 +129,10 @@ export function PortfolioGallery({ title, images }: Props) {
               exit={{ scale: 0.92, opacity: 0 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               onClick={e => e.stopPropagation()}
-              style={{ maxWidth: 900, width: '100%', position: 'relative' }}>
+              style={{ maxWidth: 900, width: '100%', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               {images[lightbox]?.type === 'video'
-                ? <video src={images[lightbox]?.src} autoPlay muted loop playsInline controls style={{ width: '100%', borderRadius: 12, display: 'block' }} />
-                : <img src={images[lightbox]?.src} alt={images[lightbox]?.alt} style={{ width: '100%', borderRadius: 12, display: 'block' }} />}
+                ? <video src={images[lightbox]?.src} autoPlay muted loop playsInline controls style={{ maxWidth: '100%', maxHeight: '76vh', borderRadius: 12, display: 'block' }} />
+                : <img src={images[lightbox]?.src} alt={images[lightbox]?.alt} style={{ maxWidth: '100%', maxHeight: '76vh', width: 'auto', height: 'auto', borderRadius: 12, display: 'block' }} />}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 20 }}>
                 <p style={{ fontFamily: '"Cormorant Garamond",serif', fontSize: 22, fontStyle: 'italic', color: '#F2EDE4' }}>{images[lightbox]?.title}</p>
                 <button onClick={() => setLightbox(null)} style={{ background: 'none', border: '1px solid rgba(200,168,107,0.3)', color: '#9A9188', width: 40, height: 40, borderRadius: '50%', fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'none' }}>✕</button>

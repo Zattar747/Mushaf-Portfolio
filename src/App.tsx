@@ -56,6 +56,7 @@ export const PORTFOLIO_DATA: Record<Category, { src: string; alt: string; title:
     { src: '/assets/graphic-design/gd-03.jpeg', alt: 'GD 3', title: 'Social Media Graphics' },
     { src: '/assets/graphic-design/gd-04.jpeg', alt: 'GD 4', title: 'Typography System' },
     { src: '/assets/graphic-design/gd-05.jpeg', alt: 'GD 5', title: 'AWS Cloud Club' },
+    { src: '/assets/graphic-design/gd-06.jpeg', alt: 'GD 6', title: 'Digital Art' },
   ],
   'Presentations': [
     { src: '/assets/presentations/vid-01.mp4', alt: 'Presentation 1', title: 'Project Showcase', type: 'video' },

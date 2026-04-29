@@ -28,8 +28,8 @@ body::after {
 }
 
 /* Cursor */
-#cursor { position:fixed; width:9px; height:9px; background:#C8A86B; border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:width .25s,height .25s,background .25s; }
-#cursor-ring { position:fixed; width:38px; height:38px; border:1px solid rgba(200,168,107,.45); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .4s cubic-bezier(.16,1,.3,1),height .4s,border-color .3s; }
+#cursor { position:fixed; width:9px; height:9px; background:#C8A86B; border-radius:50%; pointer-events:none; z-index:100000; transform:translate(-50%,-50%); transition:width .25s,height .25s,background .25s; }
+#cursor-ring { position:fixed; width:38px; height:38px; border:1px solid rgba(200,168,107,.45); border-radius:50%; pointer-events:none; z-index:99999; transform:translate(-50%,-50%); transition:width .4s cubic-bezier(.16,1,.3,1),height .4s,border-color .3s; }
 #cursor.hov { width:5px; height:5px; background:#F2EDE4; }
 #cursor-ring.hov { width:56px; height:56px; border-color:rgba(242,237,228,.5); }
 
@@ -41,6 +41,7 @@ body::after {
 /* Marquee */
 .ml       { animation: marquee-l 28s linear infinite; will-change: transform; }
 .mr       { animation: marquee-r 28s linear infinite; will-change: transform; }
+.mr-slow  { animation: marquee-r 62s linear infinite; will-change: transform; }
 .ml-fast  { animation: marquee-l 18s linear infinite; will-change: transform; }
 .x-slider { animation: marquee-l 62s linear infinite; will-change: transform; }
 
