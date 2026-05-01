@@ -8,7 +8,7 @@ const SERVICES = [
   { n: '03', name: 'Social Media & Content', desc: 'Brand-consistent content creation for Instagram and social channels. Trend-aware visuals that drive engagement, awareness, and registrations.' },
   { n: '04', name: 'Fine Arts & Illustration', desc: 'Traditional hand-drawn illustration and painting. An organic, tactile creative perspective that elevates digital design work with genuine artistry.' },
   { n: '05', name: 'Interior Design', desc: 'Currently studying at MAHE Dubai (Bachelor of Design, 2025–2029). Spatial design skills in AutoCAD, 3ds Max, Autodesk Maya, and 3D modelling.' },
-  { n: '06', name: 'Brand Identity', desc: 'Bilingual-aware (Arabic/English) visual identity systems. Maintained cohesive branding across all channels for the first AWS Cloud Club in the GCC.' },
+  { n: '06', name: 'Brand Identity', desc: 'Maintained cohesive branding across all channels for the first AWS Student Builder Group in the GCC.' },
 ]
 
 export default function Services() {

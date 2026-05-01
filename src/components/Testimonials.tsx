@@ -6,7 +6,7 @@ const QUOTES = [
   {
     text: "Mushaf has an eye that's hard to come by. Her work feels authentic — every element seems bold and intentional, and you can tell it's her work by the subtle hint of perfectionism without seeing her name on it. Things have gone much smoother ever since she joined the team. She's highly receptive to feedback, easy to work with and committed to the final product she delivers. Highly recommend her work.",
     by: 'Aamir Ashik',
-    role: 'Director, AWS Cloud Club · MAHE Dubai',
+    role: 'Director, AWS Student Builder Group · MAHE Dubai',
     initial: 'A',
   },
 ]

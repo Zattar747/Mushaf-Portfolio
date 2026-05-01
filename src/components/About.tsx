@@ -67,7 +67,7 @@ export default function About() {
             viewport={VP}
             style={{ fontSize: 15, lineHeight: 1.9, color: '#9A9188', marginTop: 36, maxWidth: 560 }}
           >
-            <p>I'm Mushaf Fatma — a creative and driven Interior Design student at MAHE Dubai with a strong passion for visual storytelling, brand content, and photography. Experienced in producing professional-grade social media graphics and event promotional materials as the Graphic Designer for the AWS Cloud Club MAHE-Dubai, the first AWS Cloud Club in the GCC.</p>
+            <p>I'm Mushaf Fatma — a creative and driven Interior Design student at MAHE Dubai with a strong passion for visual storytelling, brand content, and photography. Experienced in producing professional-grade social media graphics and event promotional materials as the Graphic Designer for the AWS Student Builder Group MAHE-Dubai, the first AWS Student Builder Group in the GCC.</p>
             <p style={{ marginTop: 20 }}>I combine an eye for aesthetics with technical design skills and a genuine understanding of current social media trends. Also a hands-on photographer and self-taught artist with skills in hand-drawn illustration and painting.</p>
           </motion.div>
 
