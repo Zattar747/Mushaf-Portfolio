@@ -12,12 +12,14 @@ interface Props { onSelectCategory: (cat: string) => void }
 
 export default function Portfolio({ onSelectCategory }: Props) {
   return (
-    <CircularGallery
-      items={ITEMS}
-      onSelect={item => onSelectCategory(item.label)}
-      scrollDuration={3200}
-      radius={420}
-      mobileRadius={200}
-    />
+    <section id="work">
+      <CircularGallery
+        items={ITEMS}
+        onSelect={item => onSelectCategory(item.label)}
+        scrollDuration={3200}
+        radius={420}
+        mobileRadius={200}
+      />
+    </section>
   )
 }
