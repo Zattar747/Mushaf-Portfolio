@@ -12,7 +12,7 @@ import Footer from './components/Footer'
 import IntroScreen from './components/IntroScreen'
 import { PortfolioGallery } from './components/ui/PortfolioGallery'
 
-export type Category = 'Art' | 'Photography' | 'Graphic Design' | 'Presentations'
+export type Category = 'Art' | 'Photography' | 'Graphic Design' | 'Brand Identity' | 'Presentations'
 
 const STRIP_ITEMS = ['Graphic Design', 'Photography', 'Social Media', 'Fine Arts', 'Interior Design', 'Brand Identity', 'Visual Storytelling', 'Illustration', 'Canva', 'Adobe PS', 'AutoCAD', '3D Modelling']
 
@@ -57,6 +57,13 @@ export const PORTFOLIO_DATA: Record<Category, { src: string; alt: string; title:
     { src: '/assets/graphic-design/gd-04.jpeg', alt: 'GD 4', title: 'Typography System' },
     { src: '/assets/graphic-design/gd-05.jpeg', alt: 'GD 5', title: 'AWS Cloud Club' },
     { src: '/assets/graphic-design/gd-06.jpeg', alt: 'GD 6', title: 'Digital Art' },
+  ],
+  'Brand Identity': [
+    { src: '/assets/brand-identity/bi-01.jpeg', alt: 'Brand Identity 1', title: 'Brand Identity 01' },
+    { src: '/assets/brand-identity/bi-02.jpeg', alt: 'Brand Identity 2', title: 'Brand Identity 02' },
+    { src: '/assets/brand-identity/bi-03.jpeg', alt: 'Brand Identity 3', title: 'Brand Identity 03' },
+    { src: '/assets/brand-identity/bi-04.jpeg', alt: 'Brand Identity 4', title: 'Brand Identity 04' },
+    { src: '/assets/brand-identity/bi-05.jpeg', alt: 'Brand Identity 5', title: 'Brand Identity 05' },
   ],
   'Presentations': [
     { src: '/assets/presentations/vid-01.mp4', alt: 'Presentation 1', title: 'Project Showcase', type: 'video' },
