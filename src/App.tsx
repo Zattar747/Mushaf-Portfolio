@@ -9,7 +9,6 @@ import Artworks from './components/Artworks'
 import Testimonials from './components/Testimonials'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
-import IntroScreen from './components/IntroScreen'
 import { PortfolioGallery } from './components/ui/PortfolioGallery'
 
 export type Category = 'Art' | 'Photography' | 'Graphic Design' | 'Brand Identity' | 'Presentations'
@@ -75,7 +74,6 @@ export const PORTFOLIO_DATA: Record<Category, { src: string; alt: string; title:
 }
 
 export default function App() {
-  const [showIntro, setShowIntro] = useState(true)
   const [activeCategory, setActiveCategory] = useState<Category | null>(null)
   const cursorRef = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
@@ -115,10 +113,6 @@ export default function App() {
     <>
       <div id="cursor" ref={cursorRef} />
       <div id="cursor-ring" ref={ringRef} />
-
-      <AnimatePresence>
-        {showIntro && <IntroScreen key="intro" onComplete={() => setShowIntro(false)} />}
-      </AnimatePresence>
 
       <div className="bg-bg min-h-screen">
         <Nav />
