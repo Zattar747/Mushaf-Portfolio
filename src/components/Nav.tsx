@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import Eyes from './ui/Eyes'
 
 const LINKS = ['About', 'Services', 'Work', 'Artworks', 'Contact']
 
@@ -24,9 +25,24 @@ export default function Nav() {
           borderBottom: scrolled ? '1px solid rgba(242,237,228,0.06)' : 'none',
         }}
       >
-        <a href="#" className="font-cormorant text-[22px] font-medium text-cream no-underline">
-          Mushaf<em className="not-italic text-gold">.</em>
-        </a>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <a href="#" className="font-cormorant text-[22px] font-medium text-cream no-underline">
+            Mushaf<em className="not-italic text-gold">.</em>
+          </a>
+          <AnimatePresence>
+            {scrolled && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.6, x: -8 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                exit={{ opacity: 0, scale: 0.6, x: -8 }}
+                transition={{ duration: 0.35, ease: [0.33, 1, 0.68, 1] }}
+                style={{ display: 'flex', alignItems: 'center' }}
+              >
+                <Eyes size={22} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
         <ul className="hidden md:flex gap-11 list-none items-center m-0 p-0">
           {LINKS.map(l => (

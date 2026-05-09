@@ -60,7 +60,8 @@ export default function Eyes({ size = 64 }: { size?: number }) {
     }
     upd()
     window.addEventListener('resize', upd)
-    return () => window.removeEventListener('resize', upd)
+    window.addEventListener('scroll', upd, { passive: true })
+    return () => { window.removeEventListener('resize', upd); window.removeEventListener('scroll', upd) }
   }, [])
 
   useEffect(() => {
