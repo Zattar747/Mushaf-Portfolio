@@ -1,3 +1,5 @@
+import { MagneticButton } from './ui/MagneticButton'
+
 function MailIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} style={{ width: 20, height: 20 }}>
@@ -28,13 +30,15 @@ function LinkedInIcon() {
 
 function SocialBtn({ href, children, title }: { href: string; children: React.ReactNode; title: string }) {
   return (
-    <a href={href} title={title} target="_blank" rel="noopener noreferrer" data-hover
-      style={{ width: 48, height: 48, borderRadius: 12, background: '#131210', border: '1px solid rgba(200,168,107,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9A9188', textDecoration: 'none', transition: 'all .3s' }}
-      onMouseEnter={e => { const a = e.currentTarget; a.style.background = '#C8A86B'; a.style.color = '#0B0A08'; a.style.borderColor = '#C8A86B'; a.style.transform = 'translateY(-3px)'; a.style.boxShadow = '0 8px 24px rgba(200,168,107,0.3)' }}
-      onMouseLeave={e => { const a = e.currentTarget; a.style.background = '#131210'; a.style.color = '#9A9188'; a.style.borderColor = 'rgba(200,168,107,0.18)'; a.style.transform = 'translateY(0)'; a.style.boxShadow = 'none' }}
-    >
-      {children}
-    </a>
+    <MagneticButton strength={0.5}>
+      <a href={href} title={title} target="_blank" rel="noopener noreferrer" data-hover
+        style={{ width: 48, height: 48, borderRadius: 12, background: '#131210', border: '1px solid rgba(200,168,107,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9A9188', textDecoration: 'none', transition: 'all .3s' }}
+        onMouseEnter={e => { const a = e.currentTarget; a.style.background = '#C8A86B'; a.style.color = '#0B0A08'; a.style.borderColor = '#C8A86B'; a.style.boxShadow = '0 8px 24px rgba(200,168,107,0.3)' }}
+        onMouseLeave={e => { const a = e.currentTarget; a.style.background = '#131210'; a.style.color = '#9A9188'; a.style.borderColor = 'rgba(200,168,107,0.18)'; a.style.boxShadow = 'none' }}
+      >
+        {children}
+      </a>
+    </MagneticButton>
   )
 }
 
@@ -56,11 +60,13 @@ export default function Footer() {
 
       <p style={{ fontSize: 12, color: '#4A453E' }}>© 2026 Mushaf Fatma. All rights reserved.</p>
 
-      <a href="#" data-hover style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#9A9188', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8, transition: 'color .3s' }}
-        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#C8A86B' }}
-        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#9A9188' }}>
-        ↑ Back to top
-      </a>
+      <MagneticButton strength={0.3}>
+        <a href="#" data-hover style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#9A9188', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8, transition: 'color .3s' }}
+          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#C8A86B' }}
+          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#9A9188' }}>
+          ↑ Back to top
+        </a>
+      </MagneticButton>
     </footer>
   )
 }

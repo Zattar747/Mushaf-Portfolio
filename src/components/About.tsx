@@ -1,6 +1,8 @@
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 
-const VP = { once: true, margin: '-80px' } as const
+const E: [number, number, number, number] = [0.16, 1, 0.3, 1]
+const VP = { once: true, margin: '-60px' } as const
 
 const TAGS = [
   'Graphic Design', 'Photography', 'Visual Design', 'Poster Design',
@@ -10,60 +12,92 @@ const TAGS = [
 ]
 
 export default function About() {
+  /* Photo reveal — plain div ref so IntersectionObserver is unaffected by clip-path */
+  const photoRef = useRef<HTMLDivElement>(null)
+  const photoInView = useInView(photoRef, { once: true })
+
+  /* Heading reveal — plain div ref, drives animate directly */
+  const headRef = useRef<HTMLDivElement>(null)
+  const headInView = useInView(headRef, { once: true })
+
   return (
     <section id="about" style={{ background: '#131210', borderTop: '1px solid rgba(242,237,228,0.06)', padding: '148px 64px' }}>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.25fr', gap: 88, alignItems: 'center' }}>
 
-        {/* Image side — flies in from left */}
-        <motion.div
-          initial={{ opacity: 0, x: -90 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          viewport={VP}
-          style={{ position: 'relative' }}
-        >
-          <div style={{ width: '100%', aspectRatio: '4/5', borderRadius: 2, position: 'relative', overflow: 'hidden', background: '#0e0d0b' }}>
-            <img src="/assets/designer/photo.png" alt="Mushaf Fatma" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', display: 'block' }} />
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(11,10,8,0.35) 0%, transparent 50%)' }} />
-          </div>
-          <div style={{ position: 'absolute', top: 18, left: 18, right: -18, bottom: -18, border: '1px solid rgba(200,168,107,0.18)', borderRadius: 2, zIndex: -1 }} />
+        {/* Image — clip-path curtain, controlled by plain ref / useInView */}
+        <div ref={photoRef} style={{ position: 'relative' }}>
           <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.65, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            viewport={VP}
+            animate={{ clipPath: photoInView ? 'inset(0 0 0% 0)' : 'inset(0 0 100% 0)' }}
+            transition={{ duration: 1.25, ease: [0.76, 0, 0.24, 1] }}
+            style={{ width: '100%', aspectRatio: '4/5', borderRadius: 2, position: 'relative', overflow: 'hidden', background: '#0e0d0b' }}
+          >
+            <motion.img
+              animate={{ scale: photoInView ? 1 : 1.1 }}
+              transition={{ duration: 1.6, ease: [0.76, 0, 0.24, 1] }}
+              src="/assets/designer/photo.png"
+              alt="Mushaf Fatma"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', display: 'block' }}
+            />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(11,10,8,0.35) 0%, transparent 50%)' }} />
+          </motion.div>
+
+          <motion.div
+            animate={{ opacity: photoInView ? 1 : 0 }}
+            transition={{ delay: 0.6, duration: 0.8, ease: E }}
+            style={{ position: 'absolute', top: 18, left: 18, right: -18, bottom: -18, border: '1px solid rgba(200,168,107,0.18)', borderRadius: 2, zIndex: -1 }}
+          />
+
+          <motion.div
+            animate={{ opacity: photoInView ? 1 : 0, scale: photoInView ? 1 : 0.5 }}
+            transition={{ duration: 0.65, delay: 0.75, ease: E }}
             style={{ position: 'absolute', bottom: -28, right: -28, width: 116, height: 116, borderRadius: '50%', background: '#C8A86B', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
           >
             <span className="font-cormorant" style={{ fontSize: 26, fontWeight: 500, color: '#0B0A08', lineHeight: 1 }}>MAHE</span>
             <span style={{ fontSize: 9, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(11,10,8,0.65)', textAlign: 'center', marginTop: 2, lineHeight: 1.35 }}>Dubai<br />2025–2029</span>
           </motion.div>
-        </motion.div>
+        </div>
 
-        {/* Content side — flies in from right */}
+        {/* Content side */}
         <div style={{ paddingTop: 16 }}>
           <motion.p
             initial={{ opacity: 0, x: 70 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, ease: E }}
             viewport={VP}
             className="text-[10px] tracking-[0.3em] uppercase text-gold mb-5"
           >About</motion.p>
 
-          <motion.h2
-            initial={{ opacity: 0, x: 70 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-            viewport={VP}
-            className="font-cormorant font-light leading-[0.96] text-cream"
-            style={{ fontSize: 'clamp(48px,6vw,84px)' }}
-          >
-            Design is<br /><em className="italic text-gold">intention</em><br />made visible
-          </motion.h2>
+          {/* Heading — plain ref drives animate, no whileInView on clipped children */}
+          <div ref={headRef}>
+            <h2 className="font-cormorant font-light leading-[0.96] text-cream" style={{ fontSize: 'clamp(48px,6vw,84px)' }}>
+              <span style={{ display: 'block', overflow: 'hidden' }}>
+                <motion.span style={{ display: 'block' }}
+                  initial={{ y: '100%' }}
+                  animate={{ y: headInView ? 0 : '100%' }}
+                  transition={{ duration: 0.9, delay: 0, ease: E }}
+                >Design is</motion.span>
+              </span>
+              <span style={{ display: 'block', overflow: 'hidden' }}>
+                <motion.em className="italic text-gold" style={{ display: 'block' }}
+                  initial={{ y: '100%' }}
+                  animate={{ y: headInView ? 0 : '100%' }}
+                  transition={{ duration: 0.9, delay: 0.14, ease: E }}
+                >intention</motion.em>
+              </span>
+              <span style={{ display: 'block', overflow: 'hidden' }}>
+                <motion.span style={{ display: 'block' }}
+                  initial={{ y: '100%' }}
+                  animate={{ y: headInView ? 0 : '100%' }}
+                  transition={{ duration: 0.9, delay: 0.26, ease: E }}
+                >made visible</motion.span>
+              </span>
+            </h2>
+          </div>
 
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.85, delay: 0.2, ease: E }}
             viewport={VP}
             style={{ fontSize: 15, lineHeight: 1.9, color: '#9A9188', marginTop: 36, maxWidth: 560 }}
           >
@@ -71,14 +105,13 @@ export default function About() {
             <p style={{ marginTop: 20 }}>I combine an eye for aesthetics with technical design skills and a genuine understanding of current social media trends. Also a hands-on photographer and self-taught artist with skills in hand-drawn illustration and painting.</p>
           </motion.div>
 
-          {/* Skill tags — stagger in one by one */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 44 }}>
             {TAGS.map((t, i) => (
               <motion.span
                 key={t}
                 initial={{ opacity: 0, scale: 0.75, y: 14 }}
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.45, delay: 0.25 + i * 0.05, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.45, delay: 0.25 + i * 0.05, ease: E }}
                 viewport={VP}
                 data-hover
                 style={{ fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#9A9188', border: '1px solid rgba(200,168,107,0.18)', padding: '8px 20px', borderRadius: 100, transition: 'border-color .3s,color .3s', cursor: 'default', display: 'inline-block' }}
@@ -90,11 +123,10 @@ export default function About() {
             ))}
           </div>
 
-          {/* Languages */}
           <motion.div
             initial={{ opacity: 0, y: 36 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, delay: 0.45, ease: E }}
             viewport={VP}
             style={{ marginTop: 40, display: 'flex', gap: 24 }}
           >
@@ -109,7 +141,7 @@ export default function About() {
           <motion.p
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 0.5, x: 0 }}
-            transition={{ duration: 1, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1, delay: 0.6, ease: E }}
             viewport={VP}
             className="font-cormorant"
             style={{ fontSize: 44, fontStyle: 'italic', color: '#9A9188', marginTop: 52 }}

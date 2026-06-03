@@ -55,6 +55,10 @@ body::after {
 @keyframes marquee-r { from{transform:translateX(-50%)} to{transform:translateX(0)} }
 @keyframes pulse-line { 0%,100%{opacity:.3} 50%{opacity:1} }
 
+/* Aurora hero background */
+@keyframes aurora-rotate { from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(360deg)} }
+@keyframes aurora-pulse  { 0%,100%{opacity:.55;transform:scale(1)} 50%{opacity:1;transform:scale(1.07)} }
+
 input, textarea, select {
   background: transparent;
   border: none;

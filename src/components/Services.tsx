@@ -1,5 +1,7 @@
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 
+const E: [number, number, number, number] = [0.16, 1, 0.3, 1]
 const VP = { once: true, margin: '-60px' } as const
 
 const SERVICES = [
@@ -12,34 +14,46 @@ const SERVICES = [
 ]
 
 export default function Services() {
+  const headRef = useRef<HTMLDivElement>(null)
+  const headInView = useInView(headRef, { once: true })
+
   return (
-    <section id="services" style={{ borderTop: '1px solid rgba(242,237,228,0.06)', padding: '148px 64px' }}>
+    <section id="services" style={{ borderTop: '1px solid rgba(242,237,228,0.06)', padding: '148px 64px', overflow: 'hidden' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 84 }}>
         <div>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.7, ease: E }}
             viewport={VP}
             className="text-[10px] tracking-[0.3em] uppercase text-gold mb-5"
           >My Craft</motion.p>
 
-          <motion.h2
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-            viewport={VP}
-            className="font-cormorant font-light leading-[0.96] text-cream"
-            style={{ fontSize: 'clamp(48px,6vw,84px)' }}
-          >
-            Creative<br /><em className="italic text-gold">Disciplines</em>
-          </motion.h2>
+          {/* Plain div ref → useInView drives animate on clipped children */}
+          <div ref={headRef}>
+            <h2 className="font-cormorant font-light leading-[0.96] text-cream" style={{ fontSize: 'clamp(48px,6vw,84px)' }}>
+              <span style={{ display: 'block', overflow: 'hidden' }}>
+                <motion.span style={{ display: 'block' }}
+                  initial={{ y: '100%' }}
+                  animate={{ y: headInView ? 0 : '100%' }}
+                  transition={{ duration: 0.9, delay: 0, ease: E }}
+                >Creative</motion.span>
+              </span>
+              <span style={{ display: 'block', overflow: 'hidden' }}>
+                <motion.em className="italic text-gold" style={{ display: 'block' }}
+                  initial={{ y: '100%' }}
+                  animate={{ y: headInView ? 0 : '100%' }}
+                  transition={{ duration: 0.9, delay: 0.15, ease: E }}
+                >Disciplines</motion.em>
+              </span>
+            </h2>
+          </div>
         </div>
 
         <motion.p
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8, delay: 0.15, ease: E }}
           viewport={VP}
           className="text-cream-muted"
           style={{ maxWidth: 320, fontSize: 14, lineHeight: 1.75 }}
@@ -54,7 +68,7 @@ export default function Services() {
             key={s.n}
             initial={{ opacity: 0, y: 70 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: i * 0.09, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.75, delay: i * 0.09, ease: E }}
             viewport={VP}
             style={{ background: '#0B0A08' }}
           >
@@ -71,7 +85,8 @@ export default function Services() {
                 const r = el.getBoundingClientRect()
                 const cx = (e.clientX - r.left) / r.width - 0.5
                 const cy = (e.clientY - r.top) / r.height - 0.5
-                el.style.transform = `perspective(900px) rotateX(${-cy * 9}deg) rotateY(${cx * 9}deg) translateZ(12px)`
+                // No translateZ — keeps card in-plane so it doesn't expand over adjacent gap borders
+                el.style.transform = `perspective(1200px) rotateX(${-cy * 7}deg) rotateY(${cx * 7}deg)`
               }}
               onMouseLeave={e => {
                 const el = e.currentTarget as HTMLElement

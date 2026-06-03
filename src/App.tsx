@@ -16,15 +16,38 @@ export type Category = 'Art' | 'Photography' | 'Graphic Design' | 'Brand Identit
 const STRIP_ITEMS = ['Graphic Design', 'Photography', 'Social Media', 'Fine Arts', 'Interior Design', 'Brand Identity', 'Visual Storytelling', 'Illustration', 'Canva', 'Adobe PS', 'AutoCAD', '3D Modelling']
 
 function MarqueeStrip() {
+  const skewRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    let lastY = window.scrollY
+    let vel = 0
+    let raf: number
+
+    const tick = () => {
+      const delta = window.scrollY - lastY
+      lastY = window.scrollY
+      vel += (delta - vel) * 0.12
+      if (skewRef.current) {
+        skewRef.current.style.transform = `skewX(${-vel * 0.22}deg)`
+      }
+      raf = requestAnimationFrame(tick)
+    }
+
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [])
+
   return (
     <div style={{ borderTop: '1px solid rgba(242,237,228,0.06)', borderBottom: '1px solid rgba(242,237,228,0.06)', overflow: 'hidden', padding: '14px 0', background: '#131210' }}>
-      <div className="ml-fast" style={{ display: 'flex', gap: 52, width: 'max-content', alignItems: 'center' }}>
-        {[...STRIP_ITEMS, ...STRIP_ITEMS, ...STRIP_ITEMS].map((item, i) => (
-          <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 52, whiteSpace: 'nowrap' }}>
-            <span style={{ fontFamily: '"Cormorant Garamond",serif', fontSize: 17, fontWeight: 300, color: '#6A6158', fontStyle: 'italic' }}>{item}</span>
-            <span style={{ width: 3, height: 3, borderRadius: '50%', background: '#8B6B3A', display: 'inline-block', flexShrink: 0 }} />
-          </span>
-        ))}
+      <div ref={skewRef} style={{ willChange: 'transform' }}>
+        <div className="ml-fast" style={{ display: 'flex', gap: 52, width: 'max-content', alignItems: 'center' }}>
+          {[...STRIP_ITEMS, ...STRIP_ITEMS, ...STRIP_ITEMS].map((item, i) => (
+            <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 52, whiteSpace: 'nowrap' }}>
+              <span style={{ fontFamily: '"Cormorant Garamond",serif', fontSize: 17, fontWeight: 300, color: '#6A6158', fontStyle: 'italic' }}>{item}</span>
+              <span style={{ width: 3, height: 3, borderRadius: '50%', background: '#8B6B3A', display: 'inline-block', flexShrink: 0 }} />
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   )
@@ -104,9 +127,18 @@ export default function App() {
   })
 
   useEffect(() => {
-    if (activeCategory) document.body.style.overflow = 'hidden'
-    else document.body.style.overflow = ''
-    return () => { document.body.style.overflow = '' }
+    if (activeCategory) {
+      // Lock background scroll at the html level so Lenis can't circumvent it
+      document.documentElement.style.overflow = 'hidden'
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.documentElement.style.overflow = ''
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.documentElement.style.overflow = ''
+      document.body.style.overflow = ''
+    }
   }, [activeCategory])
 
   return (
@@ -138,6 +170,8 @@ export default function App() {
             exit={{ clipPath: 'circle(0% at 50% 98%)' }}
             transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
             className="fixed inset-0 bg-bg z-[200] overflow-y-auto"
+            data-lenis-prevent
+            onWheel={e => e.stopPropagation()}
           >
             <div className="flex items-center justify-between px-16 py-7 border-b border-white/[0.06] sticky top-0 bg-bg z-10">
               <button
